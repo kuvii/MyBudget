@@ -4,16 +4,15 @@ import {
   Button,
   Pressable,
   StyleSheet, 
-  ScrollView, 
   Text, 
   Modal, 
   TextInput, 
-  View } from 'react-native';
-
+  View, 
+  FlatList} from 'react-native';
 const TransactionList = ({transaction, setTransaction}) => {
     
   const [show, setShow] = useState(true)
-  const [entryList, setEntryList] = useState(["hola"])
+  const [entryList, setEntryList] = useState([])
   const [spentList, setSpentList] = useState([])
   const [showModal, setShowModal] = useState(false)
     
@@ -30,12 +29,42 @@ const TransactionList = ({transaction, setTransaction}) => {
     setTransaction({...transaction, amount: value})
   }
   const submitHandle = () => {
-    transaction.amount >= 0 ? setEntryList([...entryList, transaction]) : setSpentList([...spentList, transaction])
+    const obj = {...transaction}
+    transaction.amount >= 0 ? setEntryList([...entryList, obj]) : setSpentList([...spentList, obj])
     setTransaction({...transaction, amount: 0, description: "", date: ""})
   }
 
-  const entry = <ScrollView style={styles.entryPanel}>{entryList.map(() => (<View style={styles.transaction}><Text>{value.amount}</Text></View>))}</ScrollView>
-  const spent = <ScrollView style={styles.spentPanel}>{spentList.map(() => (<View style={styles.transaction}><Text>{value.amount}</Text></View>))}</ScrollView>
+  const Transaction = () => {
+    <View style={styles.transaction} >
+      <Transaction/>
+    </View>
+  }
+  const entry = 
+  <FlatList 
+  style={styles.entryPanel}
+  data={entryList} 
+  renderItem={(element) => {
+    const { key, value } = element.item.amount;
+
+  return(
+    <View key={key} style={styles.transaction}>
+      <Text>{element.item.amount}, {element.item.description} {element.item.date}</Text>
+    </View>
+  )}}
+  />
+  const spent = 
+  <FlatList 
+  style={styles.spentPanel}
+  data={spentList} 
+  renderItem={(element) => {
+    const { key, value } = element.item.amount;
+
+  return(
+    <View key={key} style={styles.transaction}>
+      <Text>{element.item.amount}, {element.item.description} {element.item.date}</Text>
+    </View>
+  )}} 
+  />
 
   return (
       <View style={styles.transactionList}>
@@ -133,16 +162,6 @@ const styles = StyleSheet.create({
   btr10: {
     borderTopRightRadius: 10,
   },
-  transaction: {
-    alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    height: 50,
-    justifyContent: 'center',
-    marginTop: 10,
-    width: '80%',
-  },
   modalStyle: {
     alignItems: "center",
     backgroundColor: "white",
@@ -167,6 +186,16 @@ const styles = StyleSheet.create({
     height: 60,
     width: '40%',
   },
+  transaction: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    height: 50,
+    justifyContent: 'center',
+    marginTop: 10,
+    width: '80%',
+  }
 })
 
 export default TransactionList
