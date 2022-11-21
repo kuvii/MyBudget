@@ -11,6 +11,7 @@ import {
   FlatList,
 } from "react-native";
 import DatePicker from "react-native-modern-datepicker";
+import  ShowList  from './ShowList'
 
 const TransactionList = ({ transaction, setTransaction, setTotalBalance }) => {
   const [show, setShow] = useState(true)
@@ -58,41 +59,6 @@ const TransactionList = ({ transaction, setTransaction, setTotalBalance }) => {
 
   calculateTotalBalance()
 
-  const entry = (
-    <FlatList
-      style={styles.entryPanel}
-      data={entryList}
-      renderItem={(element) => {
-        const { key, value } = element.item.amount
-
-        return (
-          <View key={key} style={styles.transaction}>
-            <Text>{element.item.amount}</Text>
-            <Text>{element.item.description}</Text>
-            <Text>{element.item.date}</Text>
-          </View>
-        );
-      }}
-    />
-  );
-  const spent = (
-    <FlatList
-      style={styles.spentPanel}
-      data={spentList}
-      renderItem={(element) => {
-        const { key, value } = element.item.amount
-
-        return (
-          <View key={key} style={styles.transaction}>
-            <Text>{element.item.amount}</Text>
-            <Text>{element.item.description}</Text>
-            <Text>{element.item.date}</Text>
-          </View>
-        );
-      }}
-    />
-  );
-
   return (
     <View style={styles.transactionList}>
       <View style={styles.selector}>
@@ -106,7 +72,7 @@ const TransactionList = ({ transaction, setTransaction, setTotalBalance }) => {
         />
       </View>
 
-      {show ? entry : spent}
+      {show ? <ShowList list={entryList} type="e"/> : <ShowList list={spentList} type="s"/>}
 
       <Modal
         animationType="fade"
@@ -167,20 +133,6 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "50%",
   },
-  entryPanel: {
-    backgroundColor: "#51D190",
-    width: "100%",
-    height: "100%",
-    borderBottomRightRadius: 10,
-    borderBottomLeftRadius: 10,
-  },
-  spentPanel: {
-    backgroundColor: "#DA6590",
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    height: "80%",
-    width: "100%",
-  },
   entryColor: {
     backgroundColor: "#51D175",
   },
@@ -218,17 +170,6 @@ const styles = StyleSheet.create({
     height: 60,
     width: 180,
     marginTop: 30,
-  },
-  transaction: {
-    alignItems: "center",
-    alignSelf: "center",
-    backgroundColor: "white",
-    borderRadius: 10,
-    height: 50,
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 10,
-    width: "80%",
   },
 });
 
