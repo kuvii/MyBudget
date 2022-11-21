@@ -9,7 +9,7 @@ import {
   TextInput, 
   View, 
   FlatList} from 'react-native';
-const TransactionList = ({transaction, setTransaction}) => {
+const TransactionList = ({transaction, setTransaction, setTotalBalance}) => {
     
   const [show, setShow] = useState(true)
   const [entryList, setEntryList] = useState([])
@@ -34,11 +34,14 @@ const TransactionList = ({transaction, setTransaction}) => {
     setTransaction({...transaction, amount: 0, description: "", date: ""})
   }
 
-  const Transaction = () => {
-    <View style={styles.transaction} >
-      <Transaction/>
-    </View>
+  const calculateTotalBalance = () =>{
+    const negativeBalance = spentList.map((x) => {return parseFloat(x.amount)}).reduce((acc, current) => acc + current, 0)
+    const positiveBalance = entryList.map((x) => {return parseFloat(x.amount)}).reduce((acc, current) => acc + current, 0)
+    const result = positiveBalance + negativeBalance
+    setTotalBalance(result)
   }
+
+  calculateTotalBalance()
   const entry = 
   <FlatList 
   style={styles.entryPanel}
@@ -117,6 +120,7 @@ const TransactionList = ({transaction, setTransaction}) => {
 
 const styles = StyleSheet.create({
   transactionList: {
+    flex:1,
     alignItems: 'center',
     borderRadius: 10,
     justifyContent: 'center',
@@ -127,7 +131,7 @@ const styles = StyleSheet.create({
   selector: {
     alignItems: 'flex-start',
     flexDirection: 'row',
-    height: '20%',
+    height: 60,
     width: '100%',
   },
   selectionStyle: {
@@ -145,10 +149,10 @@ const styles = StyleSheet.create({
   },
   spentPanel: {
     backgroundColor: "#DA6590",
-    width: '100%',
-    height: '80%',
-    borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    height: '80%',
+    width: '100%',
   },
   entryColor: {
     backgroundColor: "#51D175"
@@ -184,7 +188,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     height: 60,
-    width: '40%',
+    width: 180,
+    marginTop: 30
   },
   transaction: {
     alignItems: 'center',

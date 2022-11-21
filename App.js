@@ -12,17 +12,16 @@ export default function App() {
   const [transaction, setTransaction] = useState(initTransaction)
   const [totalBalance, setTotalBalance] = useState(0)
 
-
-
+  const balanceStyle = totalBalance >= 0 ? styles.positiveAmount : styles.negativeAmount
   return (
     <View style={styles.container}>
 
       <View style={styles.totalBalanceStyle} >
         <Text style={styles.actualBalance}>Saldo Actual:</Text>
-        <Text style={styles.amount} >{totalBalance}</Text>
+        <Text style={balanceStyle} >{totalBalance}</Text>
       </View>
 
-      <TransactionList transaction={transaction} setTransaction={setTransaction} />
+      <TransactionList transaction={transaction} setTransaction={setTransaction}  setTotalBalance={setTotalBalance} />
 
     
     </View>
@@ -35,7 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
     flex: 1,
     justifyContent: 'flex-start',
-    marginTop: '10%',
+    marginTop: 35,
   },
   totalBalanceStyle: {
     alignItems: 'center',
@@ -43,14 +42,21 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     flexDirection: 'column',
     height: '20%',
-    marginTop: 10,
+    marginTop: 20,
     width: '90%',
   },
   actualBalance: {
     fontSize: 30,
   },
-  amount: {
+  positiveAmount: {
+    color: 'green',
     margin: 20,
     fontSize: 40,
   },
+  negativeAmount: {
+    color: 'red',
+    margin: 20,
+    fontSize: 40,
+  }
+
 });
