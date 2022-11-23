@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   FlatList,
   StyleSheet,
-  Pressable,
   Text,
-  Image,
   View,
-  Modal,
-  TextInput,
 } from "react-native";
+import EditTransaction from "./EditTransaction";
 
 const ShowList = ({ list, type }) => {
-  const [editMode, setEditMode] = useState(false);
 
   let panelStyle;
   switch (type) {
@@ -27,32 +23,9 @@ const ShowList = ({ list, type }) => {
       style={panelStyle}
       data={list}
       renderItem={(element) => {
-        const editDescriptionHandle = (value) => {
-          element.item.description = value == "" ? element.item.description : value
-        }
         return (
           <View style={styles.transaction}>
-            <Text>{element.item.amount}</Text>
-            <Pressable onPress={() => setEditMode(true)}>
-              <Image
-                style={styles.image}
-                source={require("../assets/images/edit.png")}
-              ></Image>
-            </Pressable>
-            <Modal
-              visible={editMode}
-              animationType="slide"
-              onRequestClose={() => setEditMode(false)}
-            >
-              <View style={styles.edit}>
-                <TextInput 
-                placeholder={element.item.description}
-                onChangeText={editDescriptionHandle}
-                />
-                <Text>{element.item.description}</Text>
-                <Text>{element.item.date}</Text>
-              </View>
-            </Modal>
+            <EditTransaction transactionInfo={element.item} id={element.index} />
           </View>
         );
       }}
@@ -68,7 +41,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 50,
     flexDirection: "row",
-    justifyContent: "space-evenly",
     marginTop: 10,
     width: "80%",
   },
@@ -85,10 +57,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     height: "80%",
     width: "100%",
-  },
-  image: {
-    height: 30,
-    width: 30,
   },
   edit: {
     alignItems: "center",
