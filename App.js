@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Pressable,  StyleSheet, Text, View} from 'react-native';
 import  TransactionList  from './components/TransactionList';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function App() {
   const initTransaction = {
+    id: uuidv4(),
     amount: 0,
     description: "",
     date: ""
