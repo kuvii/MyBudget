@@ -1,6 +1,7 @@
 import {React, useState} from 'react'
 import { Button, Modal, StyleSheet, Text, TextInput, View } from 'react-native'
 import DatePicker from "react-native-modern-datepicker";
+import { v4 as uuidv4 } from 'uuid';
 
 const TransactionInput = ({transaction, setTransaction, showModal, setShowModal, entryList, setEntryList, spentList, setSpentList}) => {
 
@@ -20,7 +21,7 @@ const TransactionInput = ({transaction, setTransaction, showModal, setShowModal,
         transaction.amount >= 0
           ? setEntryList([...entryList, obj])
           : setSpentList([...spentList, obj])
-        setTransaction({ ...transaction, amount: 0, description: "", date: "" })
+        setTransaction({ ...transaction, amount: 0, description: "", date: "", id: uuidv4() })
       }
   return (
     <Modal
