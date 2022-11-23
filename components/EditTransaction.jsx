@@ -10,16 +10,16 @@ import {
 } from "react-native";
 import DatePicker from "react-native-modern-datepicker";
 
-const EditTransaction = ({ transactionInfo, id }) => {
+const EditTransaction = ({ transactionInfo, deleteElement, id }) => {
   const [editMode, setEditMode] = useState(false);
   const [selectedDate, setSelectedDate] = useState(transactionInfo.date);
 
   const editDescriptionHandle = (value) => {
     transactionInfo.description =
-      value !== "" ? value : transactionInfo.description
+      value !== "" ? value : transactionInfo.description;
   };
   const editDateHandle = (value) => {
-    transactionInfo.date = value
+    transactionInfo.date = value;
   };
   return (
     <View style={styles.transaction}>
@@ -45,17 +45,22 @@ const EditTransaction = ({ transactionInfo, id }) => {
           source={require("../assets/images/edit.png")}
         ></Image>
       </Pressable>
-
+      <Pressable onPress={() => deleteElement(transactionInfo.id)}>
+        <Image
+          style={styles.image}
+          source={require("../assets/images/trash.png")}
+        ></Image>
+      </Pressable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   transaction: {
-    alignItems: 'center',
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-evenly",
-    width: '100%',
+    width: "100%",
   },
   image: {
     height: 30,
