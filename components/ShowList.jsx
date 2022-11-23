@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, Image, View } from "react-native";
 import EditTransaction from "./EditTransaction";
 
-const ShowList = ({ list, type }) => {
-
+const ShowList = ({ list, type, setEntryList, setSpentList }) => {
   let panelStyle;
   switch (type) {
     case "e":
@@ -18,6 +12,14 @@ const ShowList = ({ list, type }) => {
       panelStyle = styles.spentPanel;
       break;
   }
+  const deleteElement = (id) => {
+    list = list.filter(element => element.id != id)
+    if (setEntryList != null) {
+      setEntryList(list)
+    } else {
+      setSpentList(list)
+    }
+  }
   return (
     <FlatList
       style={panelStyle}
@@ -25,7 +27,11 @@ const ShowList = ({ list, type }) => {
       renderItem={(element) => {
         return (
           <View style={styles.transaction}>
-            <EditTransaction transactionInfo={element.item} id={element.index} />
+            <EditTransaction
+              transactionInfo={element.item}
+              deleteElement={deleteElement}
+              id={element.index}
+            />
           </View>
         );
       }}

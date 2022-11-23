@@ -51,7 +51,7 @@ const TransactionList = ({ transaction, setTransaction, setTotalBalance }) => {
         />
       </View>
 
-      {show ? <ShowList list={entryList} type="e"/> : <ShowList list={spentList} type="s"/>}
+      {show ? <ShowList list={entryList} type="e" setEntryList={setEntryList} /> : <ShowList list={spentList} type="s" setSpentList={setSpentList} />}
 
       <TransactionInput 
       transaction={transaction} 
